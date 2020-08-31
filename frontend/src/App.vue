@@ -1,0 +1,37 @@
+<template>
+  <div id="app">
+    <nav>
+      <appHeader></appHeader>
+    </nav>
+    <router-view></router-view>
+  </div>
+</template>
+
+<script>
+import appHeader from './views/Header.vue'
+
+export default {
+  components: {
+    appHeader
+  },
+    beforeUpdate() {
+    this.$store.state.tokenToCheck = this.$ls.get('token');
+    this.$store.commit('CHECK_TOKEN');
+  }
+}
+</script>
+
+<style>
+* {
+  padding:0;
+  margin: 0;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+</style>

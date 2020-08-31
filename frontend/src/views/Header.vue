@@ -1,0 +1,36 @@
+<template>
+  <div id="header">
+    <div id="logo"><img src="../assets/logo.png" alt=""></div>
+    <div id="links"><router-link to="/">Home</router-link> |
+    <router-link to="/Inscription">Inscription</router-link>
+    <router-link to="/Wall" v-if="this.$store.state.isLogged"> Mur </router-link>
+  </div>
+  </div>
+</template>
+
+<style lang="scss">
+#header {
+  width:100%;
+  height: 3rem;
+  background-color: #1a2684;
+  display: flex;
+  flex-direction: row;
+  #logo {
+    width:20%;
+    text-align:left;
+    line-height: 3rem;
+    img {
+      max-width: 90%;
+      height:auto;
+    }
+  }
+  #links
+  {
+    width:70%;
+  }
+  a {
+    color:white;
+    line-height: 3rem;
+  }
+}
+</style>
