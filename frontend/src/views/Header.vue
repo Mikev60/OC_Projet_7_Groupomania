@@ -2,8 +2,11 @@
   <div id="header">
     <div id="logo"><img src="../assets/logo.png" alt=""></div>
     <div id="links"><router-link to="/">Home</router-link> |
-    <router-link to="/Inscription">Inscription</router-link>
+    <router-link to="/Inscription" v-if="!(this.$store.state.isLogged)">Inscription</router-link>
     <router-link to="/Wall" v-if="this.$store.state.isLogged"> Mur </router-link>
+    <div>
+      <p>{{ this.$store.state.prenomUser }}, {{ this.$store.state.nomUser }}, {{ this.$store.state.pseudo }}, {{ this.$store.state.email }}</p>
+    </div>
   </div>
   </div>
 </template>

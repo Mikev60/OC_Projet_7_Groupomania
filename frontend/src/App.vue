@@ -16,6 +16,13 @@ export default {
   },
     beforeUpdate() {
     this.$store.state.tokenToCheck = this.$ls.get('token');
+    this.$store.state.userId = this.$ls.get('userId');
+    this.$store.commit('CHECK_TOKEN');
+  },
+    created() {
+    this.$store.state.tokenToCheck = this.$ls.get('token');
+    this.$store.state.userId = this.$ls.get('userId');
+    this.$store.dispatch('getInfos');
     this.$store.commit('CHECK_TOKEN');
   }
 }

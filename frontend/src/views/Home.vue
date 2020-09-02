@@ -69,6 +69,7 @@ export default {
         .then((response) => {
           this.errorMessage = response.data.message;
           this.$ls.set('token', response.data.token);
+          this.$ls.set('userId', response.data.userId);
           this.isAlert = false;
           this.$router.push('Wall');
         })

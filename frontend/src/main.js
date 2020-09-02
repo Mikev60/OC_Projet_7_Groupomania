@@ -4,8 +4,9 @@ import router from './router'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-import { store } from '../store/store';
 import lsWatcher from 'vue-storage-watcher'
+import { store } from '../store/store';
+
 
 Vue.use(lsWatcher, { prefix : 'groupomania_'});
 

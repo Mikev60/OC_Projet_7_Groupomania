@@ -29,6 +29,6 @@ if(!err) {
 })
 
 app.use('/user/', userRoutes);
-app.use('/wall', wallRoutes);
+app.use('/wall/', wallRoutes);
 
 module.exports = app;

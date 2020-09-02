@@ -63,7 +63,7 @@ exports.login = (req, res, next) => {
                             token: jwt.sign(
                                 { userId: result[0].id },
                                 'RANDOM_TOKEN',
-                                { expiresIn: 20}
+                                { expiresIn: 3600}
                             ), 
                             userId: result[0].id
                         });
@@ -78,4 +78,12 @@ exports.login = (req, res, next) => {
         console.log("Erreur dans les données transmises");
         return res.status(500).json({ message: 'Données transmises non correctes '});
     }
+}
+
+exports.getInfos = (req, res, next) => {
+    bdd.query('SELECT * FROM users WHERE id="'+req.params.id+'"', (err, resultat) => {
+        if(err) throw err; 
+        console.log(resultat);
+        return res.status(200).json(resultat);
+    })
 }
