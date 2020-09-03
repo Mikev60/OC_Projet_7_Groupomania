@@ -1,14 +1,10 @@
 <template>
   <div class="home">
-    <p>token actuel : {{ tokenToCheck }}</p>
-    <p>{{ isValid }}</p>
-    <p>{{ this.$store.state.isLogged }}</p>
-    <p> {{ test }} </p>
-    <div class="alert alert-success" v-if="loggedIn"><p>Tu es connecté</p></div>
+    <p> {{ loggedIn}}</p>
     <h1>Groupomania, le réseau social de votre entreprise</h1>
     <div id="conteneur">
       <div id="accueil">A compléter</div>
-      <div id="form-connexion">
+      <div id="form-connexion" v-if="!loggedIn">
         <h2>Déjà enregistré ? Connectez-vous</h2>
          <div class="alert" :class="{'alert-danger': isAlert, 'alert-success': !isAlert}" v-if="errorMessage != ''">{{ errorMessage }}</div>
         <form>
@@ -26,6 +22,10 @@
           </div>
           <button class="btn btn-primary" :disabled="$v.$invalid" @click.prevent="login">Submit</button>
         </form>
+      </div>
+      <div id="form-connexion" v-if="loggedIn">
+        <p>Bienvenue, {{ this.$store.state.pseudoUser }}</p>
+        <button class="btn btn-primary" @click.prevent="logout"> Logout </button>
       </div>
     </div>
   </div>
@@ -55,6 +55,9 @@ export default {
     isValid(){
       return this.$store.state.isValid;
     },
+    /* pseudoUser(){
+      return this.$store.getters.pseudoUser;
+    }, */
     tokenToCheck() {
       return this.$store.state.tokenToCheck;
     }
@@ -69,8 +72,10 @@ export default {
         .then((response) => {
           this.errorMessage = response.data.message;
           this.$ls.set('token', response.data.token);
-          this.$ls.set('userId', response.data.userId);
+          this.$ls.set('userId', response.data.userId); // voir si à supprimer
+          this.$store.state.userId = response.data.userId;
           this.isAlert = false;
+          this.$store.dispatch('getInfos');
           this.$router.push('Wall');
         })
         .catch(error => { 
@@ -78,7 +83,13 @@ export default {
           this.errorMessage = error.response.data.message;
           this.isAlert = true;  
           });
-    }
+    },
+    logout() {
+    this.$ls.clear();
+    this.$store.commit('LOGOUT');
+    this.$store.commit('CLEAR_STATE');
+    this.$router.push('Home');
+  },
   }, 
   validations: {
     pseudo: {

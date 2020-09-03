@@ -13,13 +13,16 @@ export const store = new Vuex.Store({
         isLogged: false,
         prenomUser: '', 
         nomUser: '', 
-        pseudoUser: '', 
+        pseudoUser: 'default', 
         emailUser: ''
     }, 
     getters: {
         isLogged: (state) => {
             return state.isLogged; 
-        }
+        },
+        pseudoUser: (state) => {
+            return state.pseudoUser;
+        }    
     },
     mutations: {
         CHECK_TOKEN(state) {
@@ -36,15 +39,30 @@ export const store = new Vuex.Store({
                 state.isLogged = false;
                 return false;
             }
+        },
+        LOGOUT(state) {
+            this.tokenToCheck = '';
+            state.isLogged = false;
+        },
+        CLEAR_STATE(state) {
+            state.tokenToCheck = '',
+            state.userId= '',
+            state.isLogged = false,
+            state.prenomUser= '', 
+            state.nomUser= '', 
+            state.pseudoUser= '', 
+            state.emailUser= ''
+            console.log('state cleared');
         }
     }, actions: {
         getInfos(context) {
+            console.log('USER ID est' + context.state.userId);
             axios.get('http://localhost:3000/user/getInfos/' + context.state.userId)
             .then(result => {
                 this.state.prenomUser = result.data[0].prenom;
                 this.state.nomUser = result.data[0].nom;
-                this.state.pseudo = result.data[0].pseudo;
-                this.state.email = result.data[0].email;
+                this.state.pseudoUser = result.data[0].pseudo;
+                this.state.emailUser = result.data[0].email;
             })
             .catch(error => {
                 console.log(error)

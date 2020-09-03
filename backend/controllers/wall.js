@@ -4,8 +4,8 @@ exports.postMessage = (req, res, next) => {
     let syntaxeMessage = /^[a-z A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ0-9-]{2,100}$/;
     if(syntaxeMessage.test(req.body.message) && req.file != null) {
         let dataPost = {
-            authorId: '1',
-            image: req.file.originalname, 
+            authorId: req.body.authorId,
+            image: `${req.protocol}://${req.get('host')}/posts/${req.file.filename}`, 
             message: req.body.message
         }
         bdd.query('INSERT INTO posts SET ?', dataPost,  (err, resultat) => {
