@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Inscription from '../views/Inscription.vue'
 import Wall from '../views/Wall.vue'
+import Profile from '../views/Profile.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ Vue.use(VueRouter)
     path:'/Wall',
     name: 'Wall',
     component: Wall
+  },
+  {
+    path:'/Profile',
+    name: 'Profile',
+    component: Profile
   }
 ]
 

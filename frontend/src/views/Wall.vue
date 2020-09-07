@@ -11,7 +11,7 @@
             </div>
             <input type="file" ref="file"  @change="checkImage" accept="image/*">  <button class="btn btn-primary" @click.prevent="postMessage">Poster</button>
         </form>
-        <Post v-for="post in posts" :key="post.id" :authorId="post.authorId" :message="post.message" :image="post.image"></Post>
+        <Post v-for="(post, postIndex) in posts" :key="post.id" :authorId="post.authorId" :message="post.message" :image="post.image" :index="postIndex" :id="post.id"></Post>
         </div> 
     </div>
 </template>

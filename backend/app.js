@@ -6,6 +6,7 @@ const bdd = require('./mysqlConfig');
 
 const userRoutes = require('./routes/user');
 const wallRoutes = require('./routes/wall');
+const profileRoutes = require('./routes/profile');
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -32,5 +33,6 @@ if(!err) {
 
 app.use('/user/', userRoutes);
 app.use('/wall/', wallRoutes);
+app.use('/profile/', profileRoutes);
 
 module.exports = app;

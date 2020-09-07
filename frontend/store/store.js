@@ -14,6 +14,7 @@ export const store = new Vuex.Store({
         prenomUser: '', 
         nomUser: '', 
         pseudoUser: 'default', 
+        avatarUser: '',
         emailUser: ''
     }, 
     getters: {
@@ -56,13 +57,14 @@ export const store = new Vuex.Store({
         }
     }, actions: {
         getInfos(context) {
-            console.log('USER ID est' + context.state.userId);
             axios.get('http://localhost:3000/user/getInfos/' + context.state.userId)
             .then(result => {
                 this.state.prenomUser = result.data[0].prenom;
                 this.state.nomUser = result.data[0].nom;
                 this.state.pseudoUser = result.data[0].pseudo;
                 this.state.emailUser = result.data[0].email;
+                this.state.avatarUser = result.data[0].avatar;
+                this.state.passwordUser = result.data[0].password;
             })
             .catch(error => {
                 console.log(error)
