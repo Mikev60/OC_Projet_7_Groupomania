@@ -15,7 +15,8 @@ export const store = new Vuex.Store({
         nomUser: '', 
         pseudoUser: 'default', 
         avatarUser: '',
-        emailUser: ''
+        emailUser: '',
+        roleUser: ''
     }, 
     getters: {
         isLogged: (state) => {
@@ -65,6 +66,7 @@ export const store = new Vuex.Store({
                 this.state.emailUser = result.data[0].email;
                 this.state.avatarUser = result.data[0].avatar;
                 this.state.passwordUser = result.data[0].password;
+                this.state.roleUser = result.data[0].role;
             })
             .catch(error => {
                 console.log(error)

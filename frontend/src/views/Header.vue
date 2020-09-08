@@ -5,8 +5,9 @@
     <router-link to="/Inscription" v-if="!(this.$store.state.isLogged)">Inscription</router-link>
     <router-link to="/Wall" v-if="this.$store.state.isLogged"> Mur </router-link>
     <router-link to="/Profile" v-if="this.$store.state.isLogged"> Profil </router-link>
+    <router-link to="/Dashboard" v-if="this.$store.state.roleUser == 'admin'"> Dashboard </router-link>
     <div>
-      <p>{{ this.$store.state.prenomUser }}, {{ this.$store.state.nomUser }}, {{ this.$store.state.pseudo }}, {{ this.$store.state.email }}</p>
+      <p>{{ this.$store.state.prenomUser }}, {{ this.$store.state.nomUser }}, {{ this.$store.state.pseudo }}, {{ this.$store.state.email }}, tu es {{ this.$store.state.roleUser }}</p>
     </div>
   </div>
   </div>

@@ -38,3 +38,32 @@ exports.changePassword = (req, res, next) => {
             })
         })
 }
+
+exports.deleteAccount = (req,res,next) => {
+    bdd.query('SELECT password, avatar FROM users WHERE id="'+req.body.userId+'"', (err, resultat) => {
+        if(err) throw err; 
+        bcrypt.compare(req.body.password, resultat[0].password)
+        .then(valid => {
+            if(!valid){
+                if(!valid) return res.status(500).json({ message: "L'utilisateur et le mot de passe ne correspondent pas"});
+            }
+            let avatarToDelete = resultat[0].avatar.split('/profiles')[1]
+            fs.unlink(`images/profiles/${avatarToDelete}`, () => { 
+                bdd.query('DELETE FROM users WHERE id="'+req.body.userId+'"',(err, result) => {
+                    if(err) throw err;
+                    console.log("utilisateur supprimé")
+                    bdd.query('DELETE FROM posts WHERE authorId="'+req.body.userId+'"',(err, result) => { 
+                        if(err) throw err;
+                        console.log("posts supprimés")
+                        bdd.query('DELETE FROM answers WHERE idAuteur="'+req.body.userId+'"',(err, result) => { 
+                            if(err) throw err;
+                            console.log('messages supprimés');
+                            return res.status(200).json({ message: 'Votre compte a bien été supprimé, vous allez être redirigé'});
+                        })
+                    })
+                })
+            })
+
+        })
+    })
+}

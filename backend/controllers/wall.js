@@ -31,8 +31,7 @@ exports.postAnswer = (req,res, next) => {
             idPost: req.body.postId,
             auteur: req.body.auteur, 
             message: req.body.message,
-            idAuteur: req.body.idAuteur,
-            nbAnswers: 0
+            idAuteur: req.body.idAuteur
         }
         bdd.query('INSERT INTO answers SET ?', dataAnswer, (err, resultat) => {
             if(err){

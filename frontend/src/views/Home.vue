@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <p> {{ loggedIn}}</p>
     <h1>Groupomania, le réseau social de votre entreprise</h1>
     <div id="conteneur">
       <div id="accueil">A compléter</div>

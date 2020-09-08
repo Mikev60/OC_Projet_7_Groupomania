@@ -39,8 +39,8 @@
        <h3>Voulez-vous vraiment supprimer le compte ?</h3>
        <div class="form-group">
            <label for="passwordDeleteAccount">Tapez votre mot de passe :</label>
-           <input type="password" class="form-control" placeholder="Votre mot de passe">
-           <button class="btn btn-danger"> Supprimer le compte </button>
+           <input type="password" class="form-control" placeholder="Votre mot de passe" v-model="passwordDeleteAccount">
+           <button class="btn btn-danger" @click.prevent="deleteAccount"> Supprimer le compte </button>
        </div>
    </div>
 </div>
@@ -58,6 +58,7 @@ export default {
             isAlertPassword: false,
             feedbackMessageAvatar: '',
             feedbackMessagePassword: '',
+            passwordDeleteAccount: '',
             displayDeleteMessage: false,
             imgIsChecked: false, 
             img : {
@@ -184,6 +185,22 @@ export default {
                 this.isAlertPassword = true;
                 this.feedbackMessagePassword = error.response.data.message;
             })
+        },
+        deleteAccount() {
+            let dataDeleteAccount = {
+                userId: this.$store.state.userId, 
+                password: this.passwordDeleteAccount
+            }
+            axios.put('http://localhost:3000/profile/deleteAccount/', dataDeleteAccount)
+            .then(response => {
+                this.$ls.clear();
+                this.$store.commit('LOGOUT');
+                this.$store.commit('CLEAR_STATE');
+                this.$router.push('Home');
+                console.log('ok cleared');
+                console.log(response);
+            })
+            .catch(error => console.log(error.response.data.message))
         }
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="containerPost">
-        <div class="message"> {{ message }} </div>
+        <div class="message"> {{ message }} <a href="#" @click.prevent="flagPost(id)" v-if="this.$store.state.roleUser == 'admin'"><img src="../assets/flag.png" width="24" height="24" ></a></div>
         <img :src="image" alt="post image">
         <div class="auteur">
             <img :src="avatarAuteur" width="48" height="48" alt="" style="border-radius:100%"><span class="displayAuthor">Posté par {{ Auteur }} </span>
@@ -128,6 +128,22 @@ export default {
             })
             .catch(error => {
                 console.log(error);
+            })
+        },
+        flagPost(id)
+        {
+            let data = {
+                idToFlag: id, 
+                userId: this.$store.state.userId,
+                roleUser: this.$store.state.roleUser
+            }
+            axios.put('http://localhost:3000/dashBoard/flagPost/'+id, data )
+            .then(response => {
+                this.feedbackMessage = response.data.message;
+                this.isAlert = false; 
+            })
+            .catch(error => {
+                console.log(error.response.data.message);
             })
         }
     }, mounted() {
