@@ -1,3 +1,40 @@
 <template>
-    <h1> Posts </h1>
+<div>
+
+    <h1> Posts taggés </h1>
+
+    <Post v-for="(post, postIndex) in posts" :key="post.id" :authorId="post.authorId" :message="post.message" :image="post.image" :index="postIndex" :id="post.id" :isFlagged="post.isFlagged"></Post>
+</div>
 </template>
+
+<script>
+import axios from 'axios'
+
+import Post from '../components/post.vue'
+
+export default {
+    data() {
+        return {
+            posts: [],
+        }
+    },
+    methods: {
+        getFlaggedPosts() {
+            axios.get('http://localhost:3000/dashBoard/flaggedPosts')
+            .then(response => {
+                console.log(response.data.resultat);
+                this.posts = response.data.resultat; 
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        }
+    },
+    components: {
+        Post
+    },
+    mounted() {
+        this.getFlaggedPosts();
+    }
+}
+</script>

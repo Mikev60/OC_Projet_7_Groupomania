@@ -5,9 +5,9 @@ import Inscription from '../views/Inscription.vue'
 import Wall from '../views/Wall.vue'
 import Profile from '../views/Profile.vue'
 import Dashboard from '../views/Dashboard.vue'
+import Users from '../views/Users.vue'
 
 import DashBoardPosts from '../components/DashBoardPosts.vue'
-import DashBoardAnswers from '../components/DashBoardAnswers.vue'
 import DashBoardUsersList from '../components/DashBoardUsersList.vue'
 
 Vue.use(VueRouter)
@@ -29,6 +29,11 @@ Vue.use(VueRouter)
     component: Wall
   },
   {
+    path:'/Users/:id',
+    name: 'Users',
+    component: Users
+  },
+  {
     path:'/Profile',
     name: 'Profile',
     component: Profile
@@ -41,10 +46,6 @@ Vue.use(VueRouter)
       {
         path:'/Dashboard/Posts',
         component: DashBoardPosts
-      },
-      {
-        path:'/Dashboard/Answers',
-        component: DashBoardAnswers
       },
       {
         path:'/Dashboard/UsersList',

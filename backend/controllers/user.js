@@ -87,3 +87,20 @@ exports.getInfos = (req, res, next) => {
         return res.status(200).json(resultat);
     })
 }
+
+exports.getAllPosts = (req, res, next) => {
+    let IdParsed = parseInt(req.params.id, 10)
+    console.log(IdParsed);
+
+    bdd.query('SELECT * FROM posts WHERE authorId="'+IdParsed+'" ORDER BY id DESC', (err, resultat) => {
+        if(err) throw err; 
+        return res.status(200).json(resultat);
+    })
+}
+
+exports.getAllUsers = (req, res, next) => {
+    bdd.query('SELECT * FROM users', (err, resultat) => {
+        if(err) throw err;
+        return res.status(200).json(resultat);
+    })
+}

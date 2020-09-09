@@ -28,7 +28,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+
+@import './sass/main.scss';
+
 * {
   padding:0;
   margin: 0;

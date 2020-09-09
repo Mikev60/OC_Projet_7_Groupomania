@@ -1,6 +1,11 @@
 <template>
-  <form>
-    <div>{{ this.$store.state.isLogged }}</div>
+<div>
+  <div id="bgContent">
+
+  </div>
+  <div id="content">
+    <h1> Inscription </h1>
+<form>
     <div class="alert" :class="{'alert-danger': isAlert, 'alert-success': !isAlert}" v-if="errorMessage != ''">{{ errorMessage }}</div>
     <div class="form-group" :class="{invalid:$v.nomUtilisateur.$error}">
     <label for="nomUtilisateur">Nom d'utilisateur</label> <br>
@@ -38,6 +43,9 @@
   </div>
     <button class="btn btn-primary" :disabled="$v.$invalid" @click.prevent="signUpUser">S'inscrire</button>
   </form>
+  </div>
+  
+</div>
 </template>
 
 <script>
@@ -127,14 +135,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-form {
-  margin-top:1rem;
-  width: 40%;
-  margin-left:auto;
-  margin-right: auto;
-}
 .btn {
   margin-top:1rem;
+}
+#content {
+  width: 80%;
+  left:10%;
+  top:15%;
+  overflow: scroll;
+  height: 75vh;
 }
 .invalid {
   input {

@@ -1,17 +1,21 @@
 <template>
     <div id="container">
         <div id="formPost">
-            <div class="alert" :class="{'alert-success': !isAlert, 'alert-danger': isAlert}" v-if="feedbackMessage != ''"> {{ feedbackMessage }}</div>
+
+            <div id="feedArea">
+            <div class="alert feedbackMessage" :class="{'alert-success': !isAlert, 'alert-danger': isAlert}" v-if="feedbackMessage != ''"> {{ feedbackMessage }}</div>
             <button class="btn btn-primary" @click.prevent="displayFormPost = !displayFormPost">Créer un post</button>
             <form v-if="displayFormPost">
             <input type="text" class="form-control" placeholder="Entrer la description de l'image" v-model="messageToPost">
             <div>
+                <p> Aperçu du message : </P>
                 <p>{{ messageToPost }}</p>
                 <img :src="this.img.url" width="200" height="200" v-if="this.imgIsChecked" alt="Preview post">
             </div>
             <input type="file" ref="file"  @change="checkImage" accept="image/*">  <button class="btn btn-primary" @click.prevent="postMessage">Poster</button>
         </form>
-        <Post v-for="(post, postIndex) in posts" :key="post.id" :authorId="post.authorId" :message="post.message" :image="post.image" :index="postIndex" :id="post.id"></Post>
+        </div>
+        <Post @postFlagged="displayAllPosts()" v-for="(post, postIndex) in posts" :key="post.id" :authorId="post.authorId" :message="post.message" :image="post.image" :index="postIndex" :id="post.id" :isFlagged="post.isFlagged"></Post>
         </div> 
     </div>
 </template>
@@ -28,7 +32,7 @@ export default {
             isAlert: true,
             feedbackMessage: '',
             imgIsChecked: false, 
-            posts: '',
+            posts: [],
             img : {
                 size: 0, 
                 height: 0, 
@@ -148,19 +152,36 @@ export default {
     }, 
    mounted() {
         this.displayAllPosts();
+    },
+    beforeupdated() {
+        this.displayAllPosts();
     }
 }
 </script>
 
 <style lang="scss" scoped>
 #container {
-    width: 60%;
+    width: 100%;
     margin:auto;
+    background-color: #eae8e8;
+}
+.feedbackMessage {
+    width: 40%;
+    margin: auto;
+    margin-bottom: 1rem; 
 }
 #formPost {
     padding-top:1rem; 
     input{
         margin-top:1rem;
     }
+}
+#feedArea {
+    width: 40%;
+    margin:auto;
+    background-color: white;
+    padding: 1rem; 
+    border-radius: 30px;
+    box-shadow: 0.2rem 0.2rem 0.3rem 0.3rem lightgrey;
 }
 </style>

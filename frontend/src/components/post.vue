@@ -1,12 +1,12 @@
 <template>
     <div class="containerPost">
-        <div class="message"> {{ message }} <a href="#" @click.prevent="flagPost(id)" v-if="this.$store.state.roleUser == 'admin'"><img src="../assets/flag.png" width="24" height="24" ></a></div>
+        <div class="message"> {{ message }}<a href="#" @click.prevent="flagPost(id, isFlagged);$emit('postflagged', id)" v-if="this.$store.state.roleUser == 'admin'"><img src="../assets/flag.png" width="24" height="24" ></a></div>
         <img :src="image" alt="post image">
         <div class="auteur">
-            <img :src="avatarAuteur" width="48" height="48" alt="" style="border-radius:100%"><span class="displayAuthor">Posté par {{ Auteur }} </span>
+            <img :src="avatarAuteur" width="48" height="48" alt="" style="border-radius:100%"><span class="displayAuthor">Posté par <router-link :to="{ name: 'Users', params: { id: authorId }}">{{ Auteur }} </router-link></span>
         </div>
         <div class="arrowDisplay">
-            <button class="btn btn-secondary btn-sm" @click.prevent="addToDisplayForm(index); displayAnswers(id);">Commentaires (nb)</button>
+            <button class="btn btn-secondary btn-sm" @click.prevent="addToDisplayForm(index); displayAnswers(id);">Commentaires (nb) {{ isFlagged }}</button>
         </div>
         <div class="alert" :class="{'alert-success': !isAlert, 'alert-danger': isAlert}" v-if="feedbackMessage != ''"> {{ feedbackMessage }}</div>
         <div class="answerForm" v-if="displayPostAnswers.includes(index)"> 
@@ -47,7 +47,7 @@ import axios from 'axios'
 import { required, maxLength, minLength } from 'vuelidate/lib/validators'
 
 export default {
-    props: ['authorId', 'message' , 'image', 'index', 'id'], 
+    props: ['authorId', 'message' , 'image', 'index', 'id', 'isFlagged'], 
     data() {
         return {
             Auteur: '',
@@ -108,7 +108,7 @@ export default {
                     setTimeout(() => {
                         this.feedbackMessage = ''
                     }, 2000);
-                    //this.displayAnswers(id);
+                    this.displayAnswers(id);
                 })
                 .catch(error => {
                     console.log(error);
@@ -130,17 +130,20 @@ export default {
                 console.log(error);
             })
         },
-        flagPost(id)
+        flagPost(id, isFlagged)
         {
+            console.log(isFlagged);
             let data = {
                 idToFlag: id, 
                 userId: this.$store.state.userId,
-                roleUser: this.$store.state.roleUser
+                roleUser: this.$store.state.roleUser,
+                isFlagged: isFlagged
             }
             axios.put('http://localhost:3000/dashBoard/flagPost/'+id, data )
             .then(response => {
                 this.feedbackMessage = response.data.message;
                 this.isAlert = false; 
+                this.$emit('postFlagged');
             })
             .catch(error => {
                 console.log(error.response.data.message);
@@ -156,12 +159,13 @@ export default {
 <style lang="scss" scoped>
 .containerPost {
     margin-top: 2rem;
-    width: 80%;
+    width: 40%;
     margin-right:auto;
     margin-left: auto; 
     box-shadow: 0.2rem 0.2rem 0.3rem 0.3rem lightgrey;
     border-radius: 30px;
     padding: 1rem; 
+    background-color: white;
 }
 .auteur {
     margin-top:1rem;

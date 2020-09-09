@@ -1,9 +1,14 @@
 <template>
-  <div class="home">
-    <h1>Groupomania, le réseau social de votre entreprise</h1>
+<div>
+  <div id="bgContent">
     <div id="conteneur">
-      <div id="accueil">A compléter</div>
-      <div id="form-connexion" v-if="!loggedIn">
+      <div id="form-connexion" v-if="loggedIn">
+        <p>Bienvenue, {{ this.$store.state.pseudoUser }}</p>
+        <button class="btn btn-primary" @click.prevent="logout"> Logout </button>
+      </div>
+    </div>
+  </div>
+        <div id="content" v-if="!loggedIn">
         <h2>Déjà enregistré ? Connectez-vous</h2>
          <div class="alert" :class="{'alert-danger': isAlert, 'alert-success': !isAlert}" v-if="errorMessage != ''">{{ errorMessage }}</div>
         <form>
@@ -22,12 +27,7 @@
           <button class="btn btn-primary" :disabled="$v.$invalid" @click.prevent="login">Submit</button>
         </form>
       </div>
-      <div id="form-connexion" v-if="loggedIn">
-        <p>Bienvenue, {{ this.$store.state.pseudoUser }}</p>
-        <button class="btn btn-primary" @click.prevent="logout"> Logout </button>
-      </div>
-    </div>
-  </div>
+</div>
 </template>
 
 <script>
@@ -54,9 +54,6 @@ export default {
     isValid(){
       return this.$store.state.isValid;
     },
-    /* pseudoUser(){
-      return this.$store.getters.pseudoUser;
-    }, */
     tokenToCheck() {
       return this.$store.state.tokenToCheck;
     }
@@ -110,6 +107,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#content {
+    width: 40vw;
+    top: 30%;
+    left: 30%;
+    height:50vh;
+}
 #conteneur {
   display:flex;
   flex-direction: row;
@@ -119,16 +122,11 @@ export default {
 
 }
 h1 {
-  margin-top: 1rem;
+
   margin-bottom: 3rem; 
 }
 #accueil {
   margin:auto; 
-}
-#form-connexion {
-  margin:auto; 
-  padding: 1rem; 
-  border: 1px solid rgb(121, 111, 111);
 }
 .invalid {
   input {
@@ -142,4 +140,5 @@ h1 {
     color:red;
   }
 }
+
 </style>
