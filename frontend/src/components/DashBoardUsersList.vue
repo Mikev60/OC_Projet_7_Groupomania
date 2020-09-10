@@ -18,7 +18,9 @@ export default {
     }, 
     methods: {
         getUserList() {
-            axios.get('http://localhost:3000/user/getAllUsers')
+            axios.get('http://localhost:3000/user/getAllUsers', { headers: {
+                'Authorization': `token ${this.$store.state.tokenToCheck}`
+                }})
             .then(response => {
                 console.log(response.data);
                 this.usersList = response.data;

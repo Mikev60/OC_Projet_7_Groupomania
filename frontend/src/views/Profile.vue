@@ -37,6 +37,7 @@
 
    <div class="deleteMessage" v-if="displayDeleteMessage">
        <h3>Voulez-vous vraiment supprimer le compte ?</h3>
+       <div class="alert" :class="{'alert-success': !isAlert, 'alert-danger': isAlert}" v-if="feedbackDeleteAccount != ''"> {{ feedbackDeleteAccount }}</div>
        <div class="form-group">
            <label for="passwordDeleteAccount">Tapez votre mot de passe :</label>
            <input type="password" class="form-control" placeholder="Votre mot de passe" v-model="passwordDeleteAccount">
@@ -58,6 +59,7 @@ export default {
             isAlertPassword: false,
             feedbackMessageAvatar: '',
             feedbackMessagePassword: '',
+            feedbackDeleteAccount: '',
             passwordDeleteAccount: '',
             displayDeleteMessage: false,
             imgIsChecked: false, 
@@ -154,7 +156,8 @@ export default {
                 formData.append("avatarActuel", this.$store.state.avatarUser);
                 axios.put('http://localhost:3000/profile/avatar/', formData, { 
                         headers: {
-                            'Content-Type': 'multipart/form-data'
+                            'Content-Type': 'multipart/form-data',
+                            'Authorization': `token ${this.$store.state.tokenToCheck}`
                         }})
                 .then(response => {
                     this.isAlert = false;
@@ -176,7 +179,9 @@ export default {
                 currentPassword: this.typedCurrentPassword, 
                 newPassword: this.newPassword
             }
-            axios.put('http://localhost:3000/profile/changePassword/', passwordObject)
+            axios.put('http://localhost:3000/profile/changePassword/', passwordObject, { headers: {
+                'Authorization': `token ${this.$store.state.tokenToCheck}`
+                }})
             .then(response => {
                 this.isAlertPassword = false;
                 this.feedbackMessagePassword = response.data.message;
@@ -191,16 +196,21 @@ export default {
                 userId: this.$store.state.userId, 
                 password: this.passwordDeleteAccount
             }
-            axios.put('http://localhost:3000/profile/deleteAccount/', dataDeleteAccount)
+            axios.put('http://localhost:3000/profile/deleteAccount/', dataDeleteAccount, { headers: {
+                'Authorization': `token ${this.$store.state.tokenToCheck}`
+                }})
             .then(response => {
+                this.feedbackDeleteAccount = response.data.message;
+                this.isAlertDelete = false;
                 this.$ls.clear();
                 this.$store.commit('LOGOUT');
                 this.$store.commit('CLEAR_STATE');
                 this.$router.push('Home');
-                console.log('ok cleared');
-                console.log(response);
             })
-            .catch(error => console.log(error.response.data.message))
+            .catch(error => {
+                this.feedbackDeleteAccount = error.response.data.message;
+                this.isAlertDelete = true;
+                })
         }
     }
 }

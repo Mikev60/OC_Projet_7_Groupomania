@@ -6,7 +6,7 @@
             <img :src="avatarAuteur" width="48" height="48" alt="" style="border-radius:100%"><span class="displayAuthor">Posté par <router-link :to="{ name: 'Users', params: { id: authorId }}">{{ Auteur }} </router-link></span>
         </div>
         <div class="arrowDisplay">
-            <button class="btn btn-secondary btn-sm" @click.prevent="addToDisplayForm(index); displayAnswers(id);">Commentaires (nb) {{ isFlagged }}</button>
+            <button class="btn btn-secondary btn-sm" @click.prevent="addToDisplayForm(index); displayAnswers(id);">Commentaires</button>
         </div>
         <div class="alert" :class="{'alert-success': !isAlert, 'alert-danger': isAlert}" v-if="feedbackMessage != ''"> {{ feedbackMessage }}</div>
         <div class="answerForm" v-if="displayPostAnswers.includes(index)"> 
@@ -71,7 +71,11 @@ export default {
     },
     methods : {
         getInfos(authorId) {
-            axios.get('http://localhost:3000/user/getInfos/' + authorId)
+            axios.get('http://localhost:3000/user/getInfos/' + authorId, { 
+                        headers: {
+                            'Authorization': `token ${this.$store.state.tokenToCheck}`
+                        }
+                    })
             .then(result => {
                     console.log(result.data[0].pseudo)
                     this.Auteur = result.data[0].pseudo;
@@ -98,7 +102,11 @@ export default {
                     auteur: this.$store.state.pseudoUser,
                     idAuteur: this.$store.state.userId
                 }
-                axios.post('http://localhost:3000/wall/post/answer', answer)
+                axios.post('http://localhost:3000/wall/post/answer', answer , { 
+                        headers: {
+                            'Authorization': `token ${this.$store.state.tokenToCheck}`
+                        }
+                    })
                 .then(response => {
                     console.log(response);
                     this.feedbackMessage = response.data.message;
@@ -121,7 +129,11 @@ export default {
             }
         },
         displayAnswers(id) {
-            axios.get('http://localhost:3000/wall/answer/get/'+id )
+            axios.get('http://localhost:3000/wall/answer/get/'+id , { 
+                        headers: {
+                            'Authorization': `token ${this.$store.state.tokenToCheck}`
+                        }
+                    })
             .then(response => {
                 this.answers = response.data.resultat;
                 console.log(this.answers);
@@ -139,7 +151,9 @@ export default {
                 roleUser: this.$store.state.roleUser,
                 isFlagged: isFlagged
             }
-            axios.put('http://localhost:3000/dashBoard/flagPost/'+id, data )
+            axios.put('http://localhost:3000/dashBoard/flagPost/'+id, data , { headers: {
+                'Authorization': `token ${this.$store.state.tokenToCheck}`
+                }})
             .then(response => {
                 this.feedbackMessage = response.data.message;
                 this.isAlert = false; 

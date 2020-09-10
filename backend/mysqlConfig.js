@@ -1,12 +1,13 @@
+require('dotenv').config();
 var mysql = require('mysql');
 
 // Connexion à MYSQL
 var bdd = mysql.createConnection({
-  socketPath : '/Applications/MAMP/tmp/mysql/mysql.sock',
-  user : 'root',
-  password : 'root',
-  host : '127.0.0.1',
-  database : 'Groupomania'
+  socketPath : process.env.SOCKET_PATH,
+  user : process.env.USERDB,
+  password : process.env.PASSWORD,
+  host : process.env.HOST,
+  database : process.env.DATABASE
 });
 
-module.exports = bdd; 
+module.exports = bdd;

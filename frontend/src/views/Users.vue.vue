@@ -30,7 +30,11 @@ export default {
       console.log(id);
       if(Number.isInteger(id))
       {
-          axios.get('http://localhost:3000/user/'+id+'/getAllPosts/')
+          axios.get('http://localhost:3000/user/'+id+'/getAllPosts/' , { 
+                        headers: {
+                            'Authorization': `token ${this.$store.state.tokenToCheck}`
+                        }
+                    })
             .then(response => {
                 console.log(response.data);
                 this.posts = response.data;
@@ -45,7 +49,9 @@ export default {
       let id = parseInt(this.$route.params.id, 10); //Convertir en nombre par sécurité
       console.log(id);
 
-      axios.get('http://localhost:3000/user/getInfos/'+id)
+      axios.get('http://localhost:3000/user/getInfos/'+id, { headers: {
+                'Authorization': `token ${this.$store.state.tokenToCheck}`
+                }})
             .then(response => {
                 this.profile.pseudo = response.data[0].pseudo;
                 this.profile.avatar = response.data[0].avatar;

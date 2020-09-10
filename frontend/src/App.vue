@@ -21,9 +21,10 @@ export default {
   },
     created() {
     this.$store.state.tokenToCheck = this.$ls.get('token');
+    console.log(this.$store.state.tokenToCheck);
     this.$store.state.userId = this.$ls.get('userId');
     this.$store.dispatch('getInfos');
-    this.$store.commit('CHECK_TOKEN');
+          this.$store.commit('CHECK_TOKEN');
   }
 }
 </script>

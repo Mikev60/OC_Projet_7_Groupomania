@@ -1,7 +1,7 @@
 const bdd = require('../mysqlConfig');
 
 exports.postMessage = (req, res, next) => {
-    let syntaxeMessage = /^[a-z A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ0-9-]{2,100}$/;
+    let syntaxeMessage = /^[a-z A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ0-9!?'$€-]{2,100}$/;
     if(syntaxeMessage.test(req.body.message) && req.file != null) {
         let dataPost = {
             authorId: req.body.authorId,
@@ -25,7 +25,7 @@ exports.postMessage = (req, res, next) => {
 }
 
 exports.postAnswer = (req,res, next) => {
-    let syntaxeMessage = /^[a-z A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ0-9-]{2,100}$/;
+    let syntaxeMessage = /^[a-z A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ0-9!?'$€-]{2,100}$/;
     if(syntaxeMessage.test(req.body.message)) {
         let dataAnswer = {
             idPost: req.body.postId,

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multerProfile = require('../middleware/multer-profile-config')
+const auth = require('../middleware/auth');
 
 const profileControllers = require('../controllers/profile');
 

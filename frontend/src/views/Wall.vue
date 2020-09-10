@@ -50,7 +50,7 @@ export default {
             {
                 let file = this.$refs.file.files[0];
                 let message = this.messageToPost;
-                let syntaxeMessageAllowed = /^[a-z A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ0-9-]{2,100}$/;  
+                let syntaxeMessageAllowed = /^[a-z A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ0-9!?'$€-]{2,100}$/;  
                 if(syntaxeMessageAllowed.test(message)) {
                     console.log(file); 
                     const formData = new FormData();
@@ -59,7 +59,8 @@ export default {
                     formData.append("message", message);
                     axios.post('http://localhost:3000/wall/post/', formData, { 
                         headers: {
-                            'Content-Type': 'multipart/form-data'
+                            'Content-Type': 'multipart/form-data',
+                            'Authorization': `token ${this.$store.state.tokenToCheck}`
                         }
                     })
                     .then(response => {
@@ -90,7 +91,9 @@ export default {
             }
         },
         displayAllPosts(){
-            axios.get('http://localhost:3000/wall/getAll/')
+            axios.get('http://localhost:3000/wall/getAll/',{ headers: {
+                'Authorization': `token ${this.$store.state.tokenToCheck}`
+                }})
             .then(response => {
                 console.log(response.data.resultat);
                 this.posts = response.data.resultat; 

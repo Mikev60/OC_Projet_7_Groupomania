@@ -20,7 +20,9 @@ export default {
     },
     methods: {
         getFlaggedPosts() {
-            axios.get('http://localhost:3000/dashBoard/flaggedPosts')
+            axios.get('http://localhost:3000/dashBoard/flaggedPosts', { headers: {
+                'Authorization': `token ${this.$store.state.tokenToCheck}`
+                }} )
             .then(response => {
                 console.log(response.data.resultat);
                 this.posts = response.data.resultat; 

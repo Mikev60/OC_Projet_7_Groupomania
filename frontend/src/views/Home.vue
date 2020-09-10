@@ -68,11 +68,15 @@ export default {
         .then((response) => {
           this.errorMessage = response.data.message;
           this.$ls.set('token', response.data.token);
-          this.$ls.set('userId', response.data.userId); // voir si à supprimer
+          this.$ls.set('userId', response.data.userId);
+          this.$store.state.tokenToCheck = response.data.token;
           this.$store.state.userId = response.data.userId;
           this.isAlert = false;
           this.$store.dispatch('getInfos');
           this.$router.push('Wall');
+          console.log(response.data.token);
+          console.log('local vue store', this.$store.state.tokenToCheck);
+          console.log('state user id', response.data.userId);
         })
         .catch(error => { 
           console.log(error.response.data.message);

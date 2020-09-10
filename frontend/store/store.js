@@ -39,6 +39,8 @@ export const store = new Vuex.Store({
                 console.log('erreur test token'); 
                 state.isValid = "expiry"; 
                 state.isLogged = false;
+                this.commit('LOGOUT');
+                this.commit('CLEAR_STATE');
                 return false;
             }
         },
@@ -53,12 +55,17 @@ export const store = new Vuex.Store({
             state.prenomUser= '', 
             state.nomUser= '', 
             state.pseudoUser= '', 
-            state.emailUser= ''
+            state.emailUser= '',
+            state.roleUser= ''
             console.log('state cleared');
         }
     }, actions: {
         getInfos(context) {
-            axios.get('http://localhost:3000/user/getInfos/' + context.state.userId)
+
+                console.log('executed');
+                axios.get('http://localhost:3000/user/getInfos/' + context.state.userId, { headers: {
+                'Authorization': `token ${context.state.tokenToCheck}`
+                }})
             .then(result => {
                 this.state.prenomUser = result.data[0].prenom;
                 this.state.nomUser = result.data[0].nom;

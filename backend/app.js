@@ -9,6 +9,9 @@ const wallRoutes = require('./routes/wall');
 const profileRoutes = require('./routes/profile');
 const dashboardRoutes = require('./routes/dashboard');
 
+var helmet = require('helmet');
+app.use(helmet());
+
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -24,9 +27,6 @@ app.use(bodyParser.json())
 bdd.connect(function(err){
 if(!err) {
     console.log("Database is connected ... nn");
-    bdd.query("SELECT * FROM users" , (err, result, fields) => {
-      console.log(result);
-    })
 } else {
     console.log("Error connecting database ... nn");
 }
