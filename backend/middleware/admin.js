@@ -1,10 +1,8 @@
 const bdd = require('../mysqlConfig');
 
 module.exports = (req, res, next) => {
-    console.log('reqadmin :', req.body)
     bdd.query('SELECT role FROM users WHERE id="'+req.body.userId+'"', (err, resultat) => {
         if(err) throw err;
-        console.log('BDD: ', resultat[0].role); 
         if(resultat[0].role == "admin") {
             next();
         }

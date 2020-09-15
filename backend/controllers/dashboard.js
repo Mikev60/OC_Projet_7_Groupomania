@@ -4,7 +4,6 @@ exports.getFlaggedPosts = (req, res, next) => {
 
     bdd.query('SELECT * FROM posts WHERE isFlagged="1" ORDER BY id DESC ', (err, resultat) => {
         if(err) throw (err);
-        console.log('boucle requête')
         return res.status(200).json({ resultat });
     })
 }

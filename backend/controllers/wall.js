@@ -50,7 +50,6 @@ exports.postAnswer = (req,res, next) => {
 exports.getAllPosts = (req, res, next) => {
     bdd.query('SELECT * FROM posts WHERE isflagged="0" ORDER BY id DESC', (err, resultat) => {
         if(err) throw (err);
-        console.log('boucle requête')
         return res.status(200).json({ resultat });
     })
 }

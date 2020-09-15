@@ -112,7 +112,6 @@ export default {
         email: this.email,
         password: this.password
       }
-      console.log(user); 
       axios.post('http://localhost:3000/user/signup/', user)
         .then((response) => {
           this.errorMessage = response.data.message;
@@ -120,14 +119,10 @@ export default {
           setTimeout(() => {
             this.$router.push({ path: '/' })  
           }, 2000)
-          console.log('ok'); 
-          console.log(response);
         })
         .catch(error => { 
-          console.log(error.response.data.message);
           this.errorMessage = error.response.data.message;
           this.isAlert = true;  
-          console.log("nok");
           });
     }
   }
@@ -143,7 +138,7 @@ export default {
   left:10%;
   top:15%;
   overflow: scroll;
-  height: 75vh;
+  height: 80vh;
 }
 .invalid {
   input {
@@ -155,6 +150,12 @@ export default {
   }
   small {
     color:red;
+  }
+}
+
+@media all and(max-width:700px) {
+  #content {
+    overflow: scroll;
   }
 }
 </style>

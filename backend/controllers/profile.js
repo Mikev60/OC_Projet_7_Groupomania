@@ -9,7 +9,7 @@ exports.updateAvatar = (req, res, next) => {
 
     console.log(avatarToDelete);
 
-    if(avatarToDelete != "defaultUser.png") {
+    if(avatarToDelete != "defaultUser.png") { // Pas de suppression de fichier si l'utilisateur a encore l'avatar de base
         fs.unlink(`images/profiles/${avatarToDelete}`, () => { 
         })
     }
@@ -61,13 +61,10 @@ exports.deleteAccount = (req,res,next) => {
                 fs.unlink(`images/profiles/${avatarToDelete}`, () => { 
                     bdd.query('DELETE FROM users WHERE id="'+req.body.userId+'"',(err, result) => {
                         if(err) throw err;
-                        console.log("utilisateur supprimé")
                         bdd.query('DELETE FROM posts WHERE authorId="'+req.body.userId+'"',(err, result) => { 
                             if(err) throw err;
-                            console.log("posts supprimés")
                             bdd.query('DELETE FROM answers WHERE idAuteur="'+req.body.userId+'"',(err, result) => { 
                                 if(err) throw err;
-                                console.log('messages supprimés');
                                 return res.status(200).json({ message: 'Votre compte a bien été supprimé, vous allez être redirigé'});
                             })
                         })

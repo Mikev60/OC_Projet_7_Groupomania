@@ -1,9 +1,9 @@
 <template>
     <div class="containerPost">
-        <div class="message"> {{ message }}<a href="#" @click.prevent="flagPost(id, isFlagged);$emit('postflagged', id)" v-if="this.$store.state.roleUser == 'admin'"><img src="../assets/flag.png" width="24" height="24" ></a></div>
-        <img :src="image" alt="post image">
+        <div class="message"> {{ message }}<a href="#" @click.prevent="flagPost(id, isFlagged);$emit('postflagged', id)" v-if="this.$store.state.roleUser == 'admin'"><img src="../assets/flag.png" alt="flag post" width="24" height="24" ></a></div>
+        <img :src="image" alt="post image" class="imgPost">
         <div class="auteur">
-            <img :src="avatarAuteur" width="48" height="48" alt="" style="border-radius:100%"><span class="displayAuthor">Posté par <router-link :to="{ name: 'Users', params: { id: authorId }}">{{ Auteur }} </router-link></span>
+            <img :src="avatarAuteur" width="48" height="48" alt="user Avatar" style="border-radius:100%"><span class="displayAuthor">Posté par <router-link :to="{ name: 'Users', params: { id: authorId }}">{{ Auteur }} </router-link></span>
         </div>
         <div class="arrowDisplay">
             <button class="btn btn-secondary btn-sm" @click.prevent="addToDisplayForm(index); displayAnswers(id);">Commentaires</button>
@@ -15,20 +15,21 @@
             </div>
             <form>
                 <div class="inputAnswerContainer">
-                <input type="text" class="form-control form-control-sm inputAnswer" :class="{invalid: $v.answerToPost.$error}" placeholder="Votre commentaire"  @blur="$v.answerToPost.$touch()" v-model="answerToPost">
+                <label for="answer">Votre réponse: </label>
+                <input type="text" id="answer" class="form-control form-control-sm inputAnswer" :class="{invalid: $v.answerToPost.$error}" placeholder="Votre commentaire"  @blur="$v.answerToPost.$touch()" v-model="answerToPost">
                 <small v-if="answerToPost.length > 0" id="emailHelp" class="form-text">{{ answerToPost.length }} / 100</small>
                 <small v-if="!$v.answerToPost.minLength" id="emailHelp" class="form-text">Le message doit contenir au moins 2 caractères</small>
                 <small v-if="!$v.answerToPost.maxLength" id="emailHelp" class="form-text">Le message doit contenir 100 caractères maximum</small>
                 <small v-if="!$v.answerToPost.syntaxe && answerToPost != ''" id="nomHelp" class="form-text">Le message contient des caractères non autorisés</small>
                 </div>
-                <div><button class="btn btn-primary btn-sm" :disabled="$v.$invalid" @click.prevent="postAnswer(id)">Répondre</button></div>
+                <div><button class="btn btn-primary btn-sm active" :disabled="$v.$invalid" @click.prevent="postAnswer(id)">Répondre</button></div>
             </form>
         </div>
-        <div v-if="displayPostAnswers.includes(index)">
+        <br><div v-if="displayPostAnswers.includes(index)">
         <div v-for="answer in answers" :key="answer.id" class="answerDisplayer" > 
             <div class="containerEachAnswer">
                 <div class="avatarAuteur">
-                    <img :src="answer.avatar" width="48" height="48" style="border-radius:100%" alt="">
+                    <img :src="answer.avatar" width="48" height="48" alt="avatar User" style="border-radius:100%" >
                 </div>
                 <div class="answer">
                 <span>
@@ -77,7 +78,6 @@ export default {
                         }
                     })
             .then(result => {
-                    console.log(result.data[0].pseudo)
                     this.Auteur = result.data[0].pseudo;
                     this.avatarAuteur = result.data[0].avatar;
             })
@@ -108,7 +108,6 @@ export default {
                         }
                     })
                 .then(response => {
-                    console.log(response);
                     this.feedbackMessage = response.data.message;
                     this.isAlert = false; 
                     this.answers.push(this.answerToPost);
@@ -119,7 +118,6 @@ export default {
                     this.displayAnswers(id);
                 })
                 .catch(error => {
-                    console.log(error);
                     this.feedbackMessage = error.response.data.message; 
                     this.isAlert = true; 
                 })
@@ -136,7 +134,6 @@ export default {
                     })
             .then(response => {
                 this.answers = response.data.resultat;
-                console.log(this.answers);
             })
             .catch(error => {
                 console.log(error);
@@ -176,10 +173,10 @@ export default {
     width: 40%;
     margin-right:auto;
     margin-left: auto; 
-    box-shadow: 0.2rem 0.2rem 0.3rem 0.3rem lightgrey;
+    box-shadow: 0.2rem 0.2rem 0.3rem 0.3rem darkgrey;
     border-radius: 30px;
     padding: 1rem; 
-    background-color: white;
+    background-color: #e0d9d9;
 }
 .auteur {
     margin-top:1rem;
@@ -191,12 +188,16 @@ export default {
     .displayAuthor {
         align-self: center;
         margin-left:0.4rem;
+        a {
+        color:darkblue;
+        }
+
     }
 }
 .message {
     font-weight: bold;
     margin-bottom: 1rem;
-    border-bottom:1px solid rgb(206, 202, 202);
+    border-bottom:6px solid #f98181;
 }
 .answerForm {
     display:flex; 
@@ -245,5 +246,16 @@ export default {
 .answer {
     margin-left: 1rem;
     margin-bottom: 1rem; 
+}
+
+.imgPost {
+    max-width: 80%;
+    height:auto;
+}
+
+@media all and(max-width:1000px) {
+    .containerPost{
+        width: 100%;
+    }
 }
 </style>

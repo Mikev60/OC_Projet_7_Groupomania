@@ -17,11 +17,13 @@ Vue.use(VueRouter)
     path: '/',
     name: 'Home',
     component: Home,
+    title: 'Groupomania'
   },
   {
     path: '/Inscription',
     name: 'Inscription',
-    component: Inscription
+    component: Inscription,
+    title: 'Groupomania - inscription'
   },
   {
     path:'/Wall',

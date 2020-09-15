@@ -4,15 +4,15 @@
 
             <div id="feedArea">
             <div class="alert feedbackMessage" :class="{'alert-success': !isAlert, 'alert-danger': isAlert}" v-if="feedbackMessage != ''"> {{ feedbackMessage }}</div>
-            <button class="btn btn-primary" @click.prevent="displayFormPost = !displayFormPost">Créer un post</button>
-            <form v-if="displayFormPost">
-            <input type="text" class="form-control" placeholder="Entrer la description de l'image" v-model="messageToPost">
+            <button class="btn btn-primary active" @click.prevent="displayFormPost = !displayFormPost">Créer un post</button>
+            <form v-if="displayFormPost"><label for="msgToPost">Votre message: </label>
+            <input type="text" id="msgToPost" class="form-control" placeholder="Entrer la description de l'image" v-model="messageToPost">
             <div>
-                <p> Aperçu du message : </P>
+                <br><p> Aperçu du message : </P>
                 <p>{{ messageToPost }}</p>
-                <img :src="this.img.url" width="200" height="200" v-if="this.imgIsChecked" alt="Preview post">
-            </div>
-            <input type="file" ref="file"  @change="checkImage" accept="image/*">  <button class="btn btn-primary" @click.prevent="postMessage">Poster</button>
+                <img :src="this.img.url" v-if="this.imgIsChecked" class="previewImg" alt="Preview post">
+            </div><label for="imgToPost">Choisissez votre image: </label><br>
+            <input type="file" id="imgToPost" ref="file"  @change="checkImage" accept="image/*">  <button class="btn btn-primary active" @click.prevent="postMessage">Poster</button>
         </form>
         </div>
         <Post @postFlagged="displayAllPosts()" v-for="(post, postIndex) in posts" :key="post.id" :authorId="post.authorId" :message="post.message" :image="post.image" :index="postIndex" :id="post.id" :isFlagged="post.isFlagged"></Post>
@@ -52,7 +52,6 @@ export default {
                 let message = this.messageToPost;
                 let syntaxeMessageAllowed = /^[a-z A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ0-9!?'$€-]{2,100}$/;  
                 if(syntaxeMessageAllowed.test(message)) {
-                    console.log(file); 
                     const formData = new FormData();
                     formData.append ("authorId", this.$store.state.userId)
                     formData.append("image", file);
@@ -76,7 +75,6 @@ export default {
                         this.displayAllPosts();
                     })
                     .catch(error => {
-                        console.log(error);
                         this.feedbackMessage = error.response.data.message; 
                         this.isAlert = true; 
                     })
@@ -95,7 +93,6 @@ export default {
                 'Authorization': `token ${this.$store.state.tokenToCheck}`
                 }})
             .then(response => {
-                console.log(response.data.resultat);
                 this.posts = response.data.resultat; 
             })
             .catch(error => {
@@ -166,7 +163,7 @@ export default {
 #container {
     width: 100%;
     margin:auto;
-    background-color: #eae8e8;
+    background-color: #bcbcbc;
 }
 .feedbackMessage {
     width: 40%;
@@ -174,7 +171,8 @@ export default {
     margin-bottom: 1rem; 
 }
 #formPost {
-    padding-top:1rem; 
+    padding-top:1rem;
+    margin:auto; 
     input{
         margin-top:1rem;
     }
@@ -182,9 +180,20 @@ export default {
 #feedArea {
     width: 40%;
     margin:auto;
-    background-color: white;
+    background-color: #e0d9d9;
     padding: 1rem; 
     border-radius: 30px;
-    box-shadow: 0.2rem 0.2rem 0.3rem 0.3rem lightgrey;
+    box-shadow: 0.2rem 0.2rem 0.3rem 0.3rem darkgrey;
+}
+.previewImg {
+    max-width:80%;
+    width: 200px;
+    height: 200px;
+    height:auto;
+}
+@media all and(max-width:1000px) {
+    #formPost, #feedArea{
+        width: 80%;
+    }
 }
 </style>

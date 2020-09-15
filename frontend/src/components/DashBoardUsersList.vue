@@ -1,9 +1,12 @@
 <template>
     <div>
     <h1> Liste des utilisateurs </h1>
-    <div v-for="(user,index) in usersList" :key="index"> 
-        <router-link :to="{ name: 'Users', params: { id: user.id }}"> {{ user.pseudo }}</router-link> (Nom: {{ user.nom }} , Prénom: {{ user.prenom}})
+    <div class="container">
+        <div v-for="(user,index) in usersList" :key="index" class="userList"> 
+            <router-link :to="{ name: 'Users', params: { id: user.id }}"> {{ user.pseudo }}</router-link> (Nom: {{ user.nom }} , Prénom: {{ user.prenom}})
+        </div>
     </div>
+
     </div>
 </template>
 
@@ -22,7 +25,6 @@ export default {
                 'Authorization': `token ${this.$store.state.tokenToCheck}`
                 }})
             .then(response => {
-                console.log(response.data);
                 this.usersList = response.data;
             })
             .catch(error => {
@@ -35,3 +37,11 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+.userList{
+    a {
+        color: darkblue;
+    }
+}
+</style>

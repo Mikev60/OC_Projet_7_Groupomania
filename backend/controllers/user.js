@@ -21,7 +21,6 @@ exports.signup = (req, res, next) => {
             bdd.query('SELECT * from users WHERE pseudo="'+user.pseudo+'" OR email="'+user.email+'"', (err, result) => { // Vérification si utilisateur ou email existe déjà
                 if(err) throw err; 
                 if(result.length >= 1) {
-                    console.log("Nok ca existe deja");
                     return res.status(500).json({ message: "L'utilisateur ou l'adresse email existe déjà"});
                 }
                 else { // Insertion des données si l'utilisateur ou l'adresse email existe déjà n'existe pas
@@ -34,7 +33,6 @@ exports.signup = (req, res, next) => {
         })
     }
     else {
-        console.log("Erreur dans les données transmises");
         return res.status(500).json({ message: 'Données transmises non correctes '});
     }
 }
@@ -50,7 +48,6 @@ exports.login = (req, res, next) => {
         bdd.query('SELECT password, id FROM users WHERE pseudo="'+user.pseudo+'"', (err, result) => { // Si l'utilisateur existe bien, on recherche le password
             if(err) throw err; 
             if(result.length <= 0) {
-                console.log("L'utilisateur n'existe pas");
                 return res.status(500).json({ message: "L'utilisateur n'existe pas"});
             } else {
                 console.log(user.password); 
@@ -75,7 +72,6 @@ exports.login = (req, res, next) => {
         })
     }
     else {
-        console.log("Erreur dans les données transmises");
         return res.status(500).json({ message: 'Données transmises non correctes '});
     }
 }

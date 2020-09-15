@@ -1,9 +1,11 @@
 <template>
-<div>
-  <img :src="profile.avatar" width="96" height="96" alt="" style="border-radius:100%">
-  <h1>{{ profile.pseudo }} </h1>
-  <h2> Ses participations </h2>
-  <Post @postFlagged="displayAllPosts()" v-for="(post, postIndex) in posts" :key="post.id" :authorId="post.authorId" :message="post.message" :image="post.image" :index="postIndex" :id="post.id"></Post>
+<div class="content">
+  <div class="container">
+    <img :src="profile.avatar" width="96" height="96" alt="" style="border-radius:100%">
+    <h1>{{ profile.pseudo }} </h1>
+    <h2> Ses participations </h2>
+    <Post @postFlagged="displayAllPosts()" v-for="(post, postIndex) in posts" :key="post.id" :authorId="post.authorId" :message="post.message" :image="post.image" :index="postIndex" :id="post.id"></Post>
+  </div>
 </div>
 </template>
 
@@ -68,3 +70,9 @@ export default {
 }
 </script>
 
+<style lang="scss">
+.content {
+  background-color: #bcbcbc;
+  min-height: 93vh;
+}
+</style>

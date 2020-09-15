@@ -3,7 +3,10 @@
 
     <h1> Posts taggés </h1>
 
-    <Post v-for="(post, postIndex) in posts" :key="post.id" :authorId="post.authorId" :message="post.message" :image="post.image" :index="postIndex" :id="post.id" :isFlagged="post.isFlagged"></Post>
+    <div class="container">
+        <Post v-for="(post, postIndex) in posts" :key="post.id" :authorId="post.authorId" :message="post.message" :image="post.image" :index="postIndex" :id="post.id" :isFlagged="post.isFlagged"></Post>
+    </div>
+    
 </div>
 </template>
 
@@ -24,7 +27,6 @@ export default {
                 'Authorization': `token ${this.$store.state.tokenToCheck}`
                 }} )
             .then(response => {
-                console.log(response.data.resultat);
                 this.posts = response.data.resultat; 
             })
             .catch(error => {

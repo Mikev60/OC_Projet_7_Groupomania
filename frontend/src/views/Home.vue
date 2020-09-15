@@ -2,7 +2,7 @@
 <div>
   <div id="bgContent">
     <div id="conteneur">
-      <div id="form-connexion" v-if="loggedIn">
+      <div id="content" v-if="loggedIn">
         <p>Bienvenue, {{ this.$store.state.pseudoUser }}</p>
         <button class="btn btn-primary" @click.prevent="logout"> Logout </button>
       </div>
@@ -14,13 +14,13 @@
         <form>
           <div class="form-group" :class="{invalid: $v.pseudo.$error}">
           <label for="pseudo">Pseudo</label>
-          <input type="text" placeholder="Votre pseudo" class="form-control" v-model="pseudo" @blur="$v.pseudo.$touch()">
+          <input type="text" id="pseudo" placeholder="Votre pseudo" class="form-control" v-model="pseudo" @blur="$v.pseudo.$touch()">
           <small v-if="!$v.pseudo.minLength" class="form-text">Le nom doit contenir au moins 2 caractères</small>
           <small v-if="!$v.pseudo.syntaxe && pseudo != ''" class="form-text">Le pseudo contient des caractères non autorisés</small>
           </div>
           <div class="form-group" :class="{invalid: $v.password.$error}">
           <label for="password">Votre mot de passe</label>
-          <input type="password" placeholder="Votre mot de passe" class="form-control" v-model="password" @blur="$v.password.$touch()">
+          <input type="password" id="password" placeholder="Votre mot de passe" class="form-control" v-model="password" @blur="$v.password.$touch()">
           <small v-if="!$v.password.minLength" class="form-text">Le password doit contenir au moins 2 caractères</small>
           <small v-if="!$v.password.syntaxe && password != ''" class="form-text">Le password contient des caractères non autorisés</small>
           </div>
@@ -74,12 +74,8 @@ export default {
           this.isAlert = false;
           this.$store.dispatch('getInfos');
           this.$router.push('Wall');
-          console.log(response.data.token);
-          console.log('local vue store', this.$store.state.tokenToCheck);
-          console.log('state user id', response.data.userId);
         })
         .catch(error => { 
-          console.log(error.response.data.message);
           this.errorMessage = error.response.data.message;
           this.isAlert = true;  
           });
@@ -144,5 +140,12 @@ h1 {
     color:red;
   }
 }
-
+@media all and(max-width:700px) {
+  #content {
+    width: 80vw;
+    left: 10%;
+    height: 70vh;
+    top:20%;
+  }
+}
 </style>
