@@ -11,13 +11,6 @@
 # ************************************************************
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
 # Affichage de la table answers
@@ -34,8 +27,7 @@ CREATE TABLE `answers` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
-LOCK TABLES `answers` WRITE;
-/*!40000 ALTER TABLE `answers` DISABLE KEYS */;
+
 
 INSERT INTO `answers` (`id`, `idPost`, `auteur`, `message`, `idAuteur`)
 VALUES
@@ -52,8 +44,6 @@ VALUES
 	(35,55,'administrateur','test',46),
 	(36,59,'administrateur','et si je poste avec auth',46);
 
-/*!40000 ALTER TABLE `answers` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Affichage de la table posts
@@ -71,8 +61,7 @@ CREATE TABLE `posts` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 
-LOCK TABLES `posts` WRITE;
-/*!40000 ALTER TABLE `posts` DISABLE KEYS */;
+
 
 INSERT INTO `posts` (`id`, `authorId`, `image`, `message`, `nbAnswers`, `isFlagged`)
 VALUES
@@ -83,8 +72,7 @@ VALUES
 	(58,47,'http://localhost:3000/posts/tenor_(1).gif1599746083644.gif','Quand je fais un test avec des regex !?$€',0,1),
 	(59,46,'http://localhost:3000/posts/tenor_(1).gif1599755594232.gif','test auth',0,1);
 
-/*!40000 ALTER TABLE `posts` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 
 # Affichage de la table users
@@ -104,8 +92,6 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
 
 INSERT INTO `users` (`id`, `nom`, `prenom`, `pseudo`, `email`, `password`, `avatar`, `role`)
 VALUES
@@ -115,14 +101,5 @@ VALUES
 	(49,'utilisateur3','utilisateur3','utilisateur3','test3@test.com','$2b$10$KfpSTKjGuE.SS4y2p82xAOCLN9qqqbyBUvRFzlqTK8FEMUE5SMW0q','http://localhost:3000/profiles/avatar1.jpeg1599744589937.jpg','user'),
 	(50,'Jacques','Henry','utilisateur4','test4@gmail.com','$2b$10$gvW4TQUT3tl7Wx/X1w3O7uLBb.BgrujcAt5.OTHE8ihPQc0YbXasO','http://localhost:3000/profiles/avatar5.png1599745635854.png','user');
 
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
-
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
